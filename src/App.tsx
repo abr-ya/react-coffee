@@ -1,20 +1,12 @@
-import { Button, Flex } from "antd";
+import { Flex } from "antd";
 
+import Counter from "./components/Counter";
 import "./App.css";
 
-const App = () => {
-  const clickHandler = () => {
-    console.log("!");
-  };
-
-  return (
-    <Flex vertical>
-      Hello, World!
-      <Button type="primary" onClick={clickHandler}>
-        Primary Button
-      </Button>
-    </Flex>
-  );
-};
+const App = () => (
+  <Flex className="wrapper" vertical>
+    <Counter />
+  </Flex>
+);
 
 export default App;
