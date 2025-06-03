@@ -3,3 +3,11 @@
   gap: 16px;
   padding: 24px;
 }
+
+.card div {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+}
