@@ -1,4 +1,5 @@
 import { create, type StateCreator } from "zustand";
+import { devtools } from "zustand/middleware";
 
 type СounterState = {
   counter: number;
@@ -21,4 +22,4 @@ const counterSlice: StateCreator<СounterState & СounterActions> = (set, get) =
   },
 });
 
-export const useCounterStore = create<СounterState & СounterActions>(counterSlice);
+export const useCounterStore = create<СounterState & СounterActions>()(devtools(counterSlice));

@@ -1,4 +1,5 @@
 import { create, type StateCreator } from "zustand";
+import { devtools } from "zustand/middleware";
 
 interface IToDoItem {
   title: string;
@@ -35,6 +36,8 @@ const toDoSlice: StateCreator<IToDoState & IToDoActions> = (set, get) => ({
   },
 });
 
-export const useToDoStore = create<IToDoState & IToDoActions>((...args) => ({
-  ...toDoSlice(...args),
-}));
+export const useToDoStore = create<IToDoState & IToDoActions>()(
+  devtools((...args) => ({
+    ...toDoSlice(...args),
+  })),
+);
