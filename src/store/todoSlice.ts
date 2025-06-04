@@ -15,14 +15,14 @@ interface IToDoActions {
   isDoneToggle: (index: number) => void;
 }
 
-const toDoSlice: StateCreator<IToDoState & IToDoActions> = (set, get) => ({
+const toDoSlice: StateCreator<IToDoState & IToDoActions, [["zustand/devtools", never]]> = (set, get) => ({
   todos: [
     { title: "CreateSlice", isDone: true },
     { title: "ShowTodos", isDone: false },
   ],
   addTodo: (title: string) => {
     const { todos } = get();
-    set({ todos: [...todos, { title, isDone: false }] });
+    set({ todos: [...todos, { title, isDone: false }] }, false, `add ${title}`);
   },
   isDoneToggle: (index: number) => {
     console.log("toggle", index);
@@ -32,7 +32,7 @@ const toDoSlice: StateCreator<IToDoState & IToDoActions> = (set, get) => ({
       { ...todos[index], isDone: !todos[index].isDone },
       ...todos.slice(index + 1),
     ];
-    set({ todos: newTodos });
+    return set({ todos: newTodos }, undefined, `changeStatus of ${todos[index].title} to ${!todos[index].isDone}`);
   },
 });
 

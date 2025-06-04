@@ -10,15 +10,15 @@ type СounterActions = {
   decrement: () => void;
 };
 
-const counterSlice: StateCreator<СounterState & СounterActions> = (set, get) => ({
+const counterSlice: StateCreator<СounterState & СounterActions, [["zustand/devtools", never]]> = (set, get) => ({
   counter: 0,
   decrement: () => {
     const { counter } = get();
-    set({ counter: counter - 1 });
+    set({ counter: counter - 1 }, false, "decrement");
   },
   increment: () => {
     const { counter } = get();
-    set({ counter: counter + 1 });
+    set({ counter: counter + 1 }, false, "increment");
   },
 });
 
