@@ -1,16 +1,26 @@
 import { useEffect } from "react";
 import { useCoffeeStore } from "../store/coffeeSlice";
+import CoffeeCard from "./CoffeeCard";
 
 const CoffeeList = () => {
   const { getCoffeeList, coffeeList } = useCoffeeStore();
-  console.log(coffeeList);
 
   useEffect(() => {
     getCoffeeList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <div>CoffeeList ({coffeeList?.length || "..."})</div>;
+  return (
+    <>
+      {coffeeList ? (
+        <div className="cardsContainer">
+          {coffeeList.map((coffee) => (
+            <CoffeeCard key={coffee.id} data={coffee} />
+          ))}
+        </div>
+      ) : null}
+    </>
+  );
 };
 
 export default CoffeeList;
