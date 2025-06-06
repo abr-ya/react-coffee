@@ -2,7 +2,7 @@ import { create, type StateCreator } from "zustand";
 import axios, { AxiosError } from "axios";
 import { devtools } from "zustand/middleware";
 
-import type { ICoffee } from "../src/interfaces/coffee.interfaces";
+import type { ICoffee, ICoffeeQueryParams } from "../src/interfaces/coffee.interfaces";
 
 const BASE_URL = "https://purpleschool.ru/coffee-api/";
 
@@ -11,16 +11,16 @@ interface ICoffeeState {
 }
 
 interface ICoffeeActions {
-  getCoffeeList: () => void;
+  getCoffeeList: (params?: ICoffeeQueryParams) => void;
 }
 
 interface ICoffeeSlice extends ICoffeeState, ICoffeeActions {}
 
 const coffeeSlice: StateCreator<ICoffeeSlice, [["zustand/devtools", never]]> = (set) => ({
   coffeeList: undefined,
-  getCoffeeList: async () => {
+  getCoffeeList: async (params?: ICoffeeQueryParams) => {
     try {
-      const { data } = await axios.get<ICoffee[]>(BASE_URL, {});
+      const { data } = await axios.get<ICoffee[]>(BASE_URL, { params });
       set({ coffeeList: data }, false, "setCoffeeList");
     } catch (error) {
       if (error instanceof AxiosError) {

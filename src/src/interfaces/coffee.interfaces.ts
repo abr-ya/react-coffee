@@ -1,8 +1,8 @@
 export type CoffeeType = "cappuccino" | "latte" | "macchiato" | "americano";
 
 export interface ICoffeeQueryParams {
-  text: string;
-  type: CoffeeType;
+  text?: string;
+  type?: CoffeeType;
 }
 
 export interface ICoffee {
