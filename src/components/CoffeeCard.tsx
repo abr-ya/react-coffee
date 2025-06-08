@@ -5,16 +5,17 @@ import type { ICoffee } from "../interfaces/coffee.interfaces";
 
 interface ICoffeeCard {
   data: ICoffee;
+  addHandler: () => void;
 }
 
-const CoffeeCard = ({ data }: ICoffeeCard) => (
+const CoffeeCard = ({ data, addHandler }: ICoffeeCard) => (
   <Card
     className="card"
     hoverable
     key={data.id}
     cover={<img src={data.image} />}
     actions={[
-      <Button icon={<ShoppingCartOutlined />} key={data.name}>
+      <Button icon={<ShoppingCartOutlined />} key={data.name} onClick={addHandler}>
         {data.price}
       </Button>,
     ]}

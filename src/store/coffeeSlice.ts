@@ -1,6 +1,6 @@
 import { create, type StateCreator } from "zustand";
 import axios, { AxiosError } from "axios";
-import { devtools } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 
 import type { ICoffee, ICoffeeQueryParams, IOrderItem } from "../interfaces/coffee.interfaces";
 
@@ -19,8 +19,9 @@ interface ICoffeeActions {
 }
 
 interface ICoffeeSlice extends ICoffeeState, ICoffeeActions {}
+type CoffeeSliceType = StateCreator<ICoffeeSlice, [["zustand/devtools", never], ["zustand/persist", unknown]]>;
 
-const coffeeSlice: StateCreator<ICoffeeSlice, [["zustand/devtools", never]]> = (set, get) => ({
+const coffeeSlice: CoffeeSliceType = (set, get) => ({
   coffeeList: undefined,
   cart: [],
   address: undefined,
@@ -40,6 +41,17 @@ const coffeeSlice: StateCreator<ICoffeeSlice, [["zustand/devtools", never]]> = (
     const normalizedItem: IOrderItem = { id: item.id, name: `${item.name} ${item.subTitle}`, quantity: 1 };
     set({ cart: [...cart, normalizedItem] });
   },
+  clearCart: () => set({ cart: [] }),
 });
 
-export const useCoffeeStore = create<ICoffeeSlice>()(devtools(coffeeSlice));
+export const useCoffeeStore = create<ICoffeeSlice>()(
+  devtools(
+    persist(coffeeSlice, {
+      name: "coffeeStore",
+      partialize: (state) => ({ cart: state.cart, address: state.address }),
+    }),
+    {
+      name: "coffeeStore",
+    },
+  ),
+);

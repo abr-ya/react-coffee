@@ -3,7 +3,7 @@ import { useCoffeeStore } from "../store/coffeeSlice";
 import CoffeeCard from "./CoffeeCard";
 
 const CoffeeList = () => {
-  const { getCoffeeList, coffeeList } = useCoffeeStore();
+  const { addToCart, getCoffeeList, coffeeList } = useCoffeeStore();
 
   useEffect(() => {
     getCoffeeList();
@@ -15,7 +15,7 @@ const CoffeeList = () => {
       {coffeeList ? (
         <div className="cardsList">
           {coffeeList.map((coffee) => (
-            <CoffeeCard key={coffee.id} data={coffee} />
+            <CoffeeCard key={coffee.id} data={coffee} addHandler={() => addToCart(coffee)} />
           ))}
         </div>
       ) : null}
