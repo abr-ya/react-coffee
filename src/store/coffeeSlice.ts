@@ -2,7 +2,13 @@ import { create, type StateCreator } from "zustand";
 import axios, { AxiosError } from "axios";
 import { devtools, persist } from "zustand/middleware";
 
-import type { ICoffee, ICoffeeQueryParams, IOrderItem } from "../interfaces/coffee.interfaces";
+import type {
+  ICoffee,
+  ICoffeeQueryParams,
+  ICreateOrderPayload,
+  ICreateOrderResponse,
+  IOrderItem,
+} from "../interfaces/coffee.interfaces";
 
 const BASE_URL = "https://purpleschool.ru/coffee-api/";
 
@@ -16,6 +22,8 @@ interface ICoffeeActions {
   getCoffeeList: (params?: ICoffeeQueryParams) => void;
   setAddress: (address: string) => void;
   addToCart: (item: ICoffee) => void;
+  createOrder: () => void;
+  clearCart: () => void;
 }
 
 interface ICoffeeSlice extends ICoffeeState, ICoffeeActions {}
@@ -38,10 +46,27 @@ const coffeeSlice: CoffeeSliceType = (set, get) => ({
   setAddress: (address) => set({ address }),
   addToCart: (item) => {
     const { cart } = get();
-    const normalizedItem: IOrderItem = { id: item.id, name: `${item.name} ${item.subTitle}`, quantity: 1 };
+    // todo: real quantity and size!
+    const normalizedItem: IOrderItem = { id: item.id, name: `${item.name} ${item.subTitle}`, quantity: 1, size: "M" };
     set({ cart: [...cart, normalizedItem] });
   },
   clearCart: () => set({ cart: [] }),
+  createOrder: async () => {
+    const { cart, address } = get();
+    const order: ICreateOrderPayload = {
+      address: address!,
+      orderItems: cart!,
+    };
+    try {
+      const { data } = await axios.post<ICreateOrderResponse>(BASE_URL + "order", order);
+      if (data.success) {
+        alert(data.message);
+        set({ cart: [] });
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) console.log(error);
+    }
+  },
 });
 
 export const useCoffeeStore = create<ICoffeeSlice>()(

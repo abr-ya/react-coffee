@@ -20,14 +20,15 @@ export interface IOrderItem {
   id: number;
   name: string;
   quantity: number;
+  size: "S" | "M" | "L";
 }
 
 export interface ICreateOrderPayload {
   address: string;
-  orderItems: IOrderItem;
+  orderItems: IOrderItem[];
 }
 
 export interface ICreateOrderResponse {
-  isSuccess: boolean;
+  success: boolean;
   message: string;
 }

@@ -2,10 +2,16 @@ import { Button, Input } from "antd";
 import { useCoffeeStore } from "../store/coffeeSlice";
 
 const CoffeeCart = () => {
-  const { address, cart, setAddress } = useCoffeeStore();
+  const { address, cart, clearCart, createOrder, setAddress } = useCoffeeStore();
 
-  const createOrderHandler = () => console.log("createOrderHandler");
-  const clearCartHandler = () => console.log("clearCartHandler");
+  const createOrderHandler = () => {
+    console.log("createOrderHandler");
+    createOrder();
+  };
+  const clearCartHandler = () => {
+    console.log("clearCartHandler");
+    clearCart();
+  };
 
   return (
     <aside className="cart">
