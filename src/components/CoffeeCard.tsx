@@ -1,7 +1,7 @@
 import { Button, Card, Rate, Tag } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 
-import type { ICoffee } from "../src/interfaces/coffee.interfaces";
+import type { ICoffee } from "../interfaces/coffee.interfaces";
 
 interface ICoffeeCard {
   data: ICoffee;

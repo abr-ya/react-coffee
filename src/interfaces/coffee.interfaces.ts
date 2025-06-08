@@ -15,3 +15,19 @@ export interface ICoffee {
   description: string;
   rating: number;
 }
+
+export interface IOrderItem {
+  id: number;
+  name: string;
+  quantity: number;
+}
+
+export interface ICreateOrderPayload {
+  address: string;
+  orderItems: IOrderItem;
+}
+
+export interface ICreateOrderResponse {
+  isSuccess: boolean;
+  message: string;
+}

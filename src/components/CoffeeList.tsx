@@ -13,7 +13,7 @@ const CoffeeList = () => {
   return (
     <>
       {coffeeList ? (
-        <div className="cardsContainer">
+        <div className="cardsList">
           {coffeeList.map((coffee) => (
             <CoffeeCard key={coffee.id} data={coffee} />
           ))}
